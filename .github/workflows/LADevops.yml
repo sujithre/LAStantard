@@ -40,7 +40,7 @@ jobs:
        with:
          inlineScript: |
           $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName tlg-demo
+              -ResourceGroupName tlg-demo `
               -Name FirstDemoStandard
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
