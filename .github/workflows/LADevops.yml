@@ -37,3 +37,39 @@ jobs:
         with:
           name: build-artifact
           path: ${{ github.run_id }}.zip
+  Deploy:
+     runs-on: ubuntu-latest
+     needs: [build]
+     steps: 
+        - name: Azure Login
+          uses: Azure/login@v1.4.5
+          with:
+            # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+            creds: ${{secrets.AZURE_CREDENTIALS}}
+        - name: Get publish Profile
+          id: laapp
+          uses: azure/powershell@v1
+          with:
+             inlineScript: |
+              $profile = Get-AzWebAppPublishingProfile `
+                  -ResourceGroupName ${{github.event.inputs.RG_LA}}`
+                  -Name ${{github.event.inputs.LA_NAME}}
+              $profile = $profile.Replace("`r", "").Replace("`n", "")
+              Write-Output "::set-output name=profile::$profile"
+              azPSVersion: latest
+        - name: Download a Build Artifact
+          uses: actions/download-artifact@v3.0.0
+          with:
+            # Artifact name
+            name: build-artifact
+            # Destination path
+            path: build-art/
+        - name: Azure Functions Action
+          uses: Azure/functions-action@v1.4.6
+          with:
+            # Name of the Azure Function App
+            app-name: ${{github.event.inputs.LA_NAME}}
+            # Path to package or folder. *.zip or a folder to deploy
+            package: build-art/${{ github.run_id }}.zip
+            # Publish profile (*.publishsettings) file contents with web deploy secrets
+            publish-profile: ${{steps.laapp.outputs.profile}}
