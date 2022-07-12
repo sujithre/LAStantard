@@ -56,7 +56,7 @@ jobs:
                   -Name ${{github.event.inputs.LA_NAME}}
               $profile = $profile.Replace("`r", "").Replace("`n", "")
               Write-Output "::set-output name=profile::$profile"
-              azPSVersion: latest
+             azPSVersion: latest
         - name: Download a Build Artifact
           uses: actions/download-artifact@v3.0.0
           with:
