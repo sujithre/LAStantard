@@ -1,7 +1,7 @@
 name: LADevops
 on:
  push:
-   branches: master
+   branches: main
  workflow_dispatch:
 
 jobs:
@@ -10,11 +10,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0
+        uses: actions/checkout@v2.4.2
       - name: action-zip
         uses: byteever/action-build-zip@master
         with:
           filename: 'release.zip'
-      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+            path: Artifacts/release.zip
      
    
