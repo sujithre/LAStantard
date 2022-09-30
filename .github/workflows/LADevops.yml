@@ -5,7 +5,7 @@ on:
  workflow_dispatch:
 
 jobs:
-  CI:
+  CI_Workflow:
     name: CI
     runs-on: ubuntu-latest
     steps:
