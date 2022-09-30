@@ -35,6 +35,25 @@ jobs:
         with:
          name: build-artifact
          path: release.zip
+      - name: Azure PowerShell Action
+        id: laapp
+        uses: Azure/powershell@v1
+        with:
+          inlineScript: |
+            $profile = Get-AzWebAppPublishingProfile `
+              -ResourceGroupName lademo `
+              -Name intDemos
+            $profile = $profile.Replace("`r", "").Replace("`n", "")
+            Write-Output "::set-output name=profile::$profile"
+          azPSVersion: latest
+      - name: Azure Functions Action
+        uses: Azure/functions-action@v1.4.7
+        with:
+           app-name: intDemos
+           package: release.zip
+           publish-profile: ${{steps.laapp.outputs.profile}}
+           
+        
         
      
    
