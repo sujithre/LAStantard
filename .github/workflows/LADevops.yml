@@ -19,6 +19,22 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.0
         with:
+            name: build-artifact
             path: release.zip
+  CD_Workflow:
+     name: CD
+     needs: CI_Workflow
+     runs-on: ubuntu-latest
+     steps:
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+           creds: ${{secrets.AZURE_CREDENTIALS}}
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+         name: build-artifact
+         path: release.zip
+        
      
    
