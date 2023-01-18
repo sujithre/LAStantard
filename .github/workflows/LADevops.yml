@@ -1,7 +1,5 @@
 name: LADevops
 on:
- push:
-   branches: main
  workflow_dispatch:
  
 env:
