@@ -1,4 +1,4 @@
-name: LADevops
+name: AzLogin
 on:
  workflow_dispatch:
  
