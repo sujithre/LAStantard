@@ -1,1 +1,43 @@
+name: LADevops
+on:
+ workflow_dispatch:
+ 
+env:
+   ResourceGroup: Demo
+   AppName: DemoShell
+
+jobs:
+  CI_Workflow:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{github.ref_name}}
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - name: action-zip
+        uses: vimtor/action-zip@v1
+        with:
+          files: ./
+          dest: release.zip
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.0
+        with:
+            name: build-artifact
+            path: release.zip
+  CD_Workflow:
+     name: CD
+     needs: CI_Workflow
+     runs-on: ubuntu-latest
+     steps:
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+           creds: ${{secrets.AZURE_CREDENTIALS}}
+           enable-AzPSSession: true
+
+           
+        
+        
+     
+   
 
