@@ -57,7 +57,7 @@ jobs:
         with:
            app-name: ${{env.AppName}}
            package: release.zip
-           publish-profile: ${{steps.laapp.outputs.profile}}
+           publish-profile: ${{secrets.APPSETTING}}
            
         
         
