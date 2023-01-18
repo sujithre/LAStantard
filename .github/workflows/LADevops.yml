@@ -5,8 +5,8 @@ on:
  workflow_dispatch:
  
 env:
-   ResourceGroup: demo
-   AppName: GithubDevops
+   ResourceGroup: Demo
+   AppName: DemoShell
 
 jobs:
   CI_Workflow:
