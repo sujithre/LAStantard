@@ -45,7 +45,7 @@ jobs:
               -ResourceGroupName ${{env.ResourceGroup}} `
               -Name ${{env.AppName}}
             $profile = $profile.Replace("`r", "").Replace("`n", "")
-            Write-Output "::set-output name=profile::$profile"
+            echo "profile=$profile">> $GITHUB_OUTPUT
           azPSVersion: latest
       - name: Download a Build Artifact
         uses: actions/download-artifact@v3.0.0
