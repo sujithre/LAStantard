@@ -12,6 +12,7 @@ jobs:
   CI_Workflow:
     name: CI
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - run: echo ${{github.ref_name}}
       - name: Checkout
@@ -30,6 +31,7 @@ jobs:
      name: CD
      needs: CI_Workflow
      runs-on: ubuntu-latest
+     environment: production
      steps:
       - name: Azure Login
         uses: Azure/login@v1
